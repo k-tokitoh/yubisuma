@@ -87,7 +87,7 @@ func call(indexOfplayerOnTurn int, thumbsCounts []int) {
 
 	upThumbsCounts := getUpThumbsCounts(thumbsCounts)
 
-	guess := guessHowManyThumbsUp(isSelfTurn, sum(thumbsCounts))
+	guess := guessHowManyThumbsUp(isSelfTurn, thumbsCounts)
 
 	printCallResult(guess, thumbsCounts, upThumbsCounts)
 
@@ -120,7 +120,7 @@ func printTurn(thumbsCounts []int, upThumbsCounts []int, indexOfPlayerOnTurn int
 			turnMessage = "his/her turn."
 		}
 		thumbs := strings.Repeat("UP   ", upThumbsCounts[i]) + strings.Repeat("__   ", thumbsCount-upThumbsCounts[i])
-		description := fmt.Sprintf("%-13s%s", playerName, thumbs)
+		description := fmt.Sprintf("%-13s%-10s", playerName, thumbs)
 		if i == indexOfPlayerOnTurn {
 			description += fmt.Sprintf("<= %s", turnMessage)
 		}
@@ -152,10 +152,11 @@ func askHowManySelfThumbsUp(max int) int {
 	return upSelfThumbsCount
 }
 
-func guessHowManyThumbsUp(isSelfTurn bool, thumbsSum int) int {
+func guessHowManyThumbsUp(isSelfTurn bool, thumbsCounts []int) int {
+	thumbsSum := sum(thumbsCounts)
 	var guess int
 	if isSelfTurn {
-		fmt.Printf("\nhow many thumbs do you guess will go up in all? (enter x - x)\n")
+		fmt.Printf("\nhow many thumbs do you guess will go up in all? (enter 0 - %d)\n", thumbsSum)
 		fmt.Scan(&guess)
 		fmt.Print("\n\n")
 	} else {
